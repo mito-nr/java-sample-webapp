@@ -1,0 +1,38 @@
+common: &default_settings
+  license_key: '<%= license_key %>'
+  
+  app_name: Java Webapp
+  
+  log_level: info
+  
+  audit_mode: false
+  
+  high_security: false
+  
+  transaction_tracer:
+    enabled: true
+    transaction_threshold: apdex_f
+    record_sql: obfuscated
+    stack_trace_threshold: 0.5
+  
+  error_collector:
+    enabled: true
+    ignore_errors: ''
+    ignore_status_codes: 404
+  
+  browser_monitoring:
+    auto_instrument: true
+  
+  distributed_tracing:
+    enabled: true
+
+production:
+  <<: *default_settings
+
+development:
+  <<: *default_settings
+  app_name: Java Webapp (Development)
+
+staging:
+  <<: *default_settings
+  app_name: Java Webapp (Staging)

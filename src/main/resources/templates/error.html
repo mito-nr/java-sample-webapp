@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>エラーテスト</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+        .error {
+            background: #fee;
+            border: 2px solid #c00;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .info {
+            background: #f0f0f0;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        a {
+            display: inline-block;
+            margin: 10px 5px;
+            padding: 10px 20px;
+            background: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        a:hover { background: #0056b3; }
+    </style>
+</head>
+<body>
+    <h1>エラーが記録されました</h1>
+    <div class="error">
+        <h3>エラー内容:</h3>
+        <p th:text="${error}">エラーメッセージ</p>
+    </div>
+    <div class="info">
+        <p><strong>ユーザーID:</strong> <span th:text="${userId}">N/A</span></p>
+        <p>このエラーはNew Relicに記録されました。</p>
+    </div>
+    <div>
+        <a href="/">ホームに戻る</a>
+        <a href="/error-test">もう一度エラーを発生させる</a>
+    </div>
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>カスタム属性</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+        .success {
+            background: #efe;
+            border: 2px solid #0c0;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .attributes {
+            background: #f0f0f0;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .attributes ul {
+            list-style: none;
+            padding: 0;
+        }
+        .attributes li {
+            padding: 5px 0;
+            border-bottom: 1px solid #ddd;
+        }
+        a {
+            display: inline-block;
+            margin: 10px 5px;
+            padding: 10px 20px;
+            background: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        a:hover { background: #0056b3; }
+    </style>
+</head>
+<body>
+    <h1 th:text="${message}">メッセージ</h1>
+    <div class="success">
+        <p><strong>ユーザーID:</strong> <span th:text="${userId}">N/A</span></p>
+        <p>カスタム属性がNew Relicに送信されました。</p>
+    </div>
+    <div class="attributes">
+        <h3>追加された属性:</h3>
+        <ul>
+            <li th:each="entry : ${attributes}">
+                <strong th:text="${entry.key}">key</strong>: 
+                <span th:text="${entry.value}">value</span>
+            </li>
+        </ul>
+    </div>
+    <div>
+        <a href="/">ホームに戻る</a>
+        <a href="/custom-attributes">再読み込み</a>
+    </div>
+</body>
+</html>
