@@ -4,7 +4,7 @@ common: &default_settings
   app_name: Java Webapp
   
   log_level: info
-
+  
   audit_mode: false
   
   high_security: false
@@ -27,13 +27,12 @@ common: &default_settings
     enabled: true
   
   class_transformer:
-    com.newrelic.instrumentation.servlet-2.4:
-      enabled: false
+    excludes: org.springframework.boot.web.servlet.filter.OrderedFormContentFilter
   
-  span_events:
+  transaction_segments:
     attributes:
       exclude:
-        - request.parameters.*
+        - OrderedFormContentFilter
 
 production:
   <<: *default_settings

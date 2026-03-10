@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ビジネス処理</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+        .success {
+            background: #efe;
+            border: 2px solid #0c0;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .info {
+            background: #f0f0f0;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        a {
+            display: inline-block;
+            margin: 10px 5px;
+            padding: 10px 20px;
+            background: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        a:hover { background: #0056b3; }
+    </style>
+</head>
+<body>
+    <h1 th:text="${message}">メッセージ</h1>
+    <div class="success">
+        <h3>処理結果:</h3>
+        <p><strong>注文ID:</strong> <span th:text="${orderId}">N/A</span></p>
+        <p><strong>ユーザーID:</strong> <span th:text="${userId}">N/A</span></p>
+        <p><strong>結果:</strong> <span th:text="${result}">N/A</span></p>
+        <p><strong>計算結果:</strong> <span th:text="${calculation}">N/A</span></p>
+    </div>
+    <div class="info">
+        <p>以下の処理がNew Relicで計測されました：</p>
+        <ul>
+            <li>注文処理（@Trace）</li>
+            <li>データベースクエリ（Custom/Database/Query）</li>
+            <li>外部API呼び出し（Custom/ExternalAPI/Call）</li>
+            <li>重い計算処理（Custom/Calculation/Heavy）</li>
+            <li>リスクのある操作（Custom/RiskyOperation）</li>
+        </ul>
+    </div>
+    <div>
+        <a href="/">ホームに戻る</a>
+        <a href="/business-process">もう一度実行</a>
+    </div>
+</body>
+</html>

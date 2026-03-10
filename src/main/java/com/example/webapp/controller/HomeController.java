@@ -1,6 +1,7 @@
 package com.example.webapp.controller;
 
 import com.example.webapp.service.NewRelicService;
+import com.example.webapp.service.BusinessService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,15 +10,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
+import java.util.UUID;
 
 @Controller
 public class HomeController {
     
     private final NewRelicService newRelicService;
+    private final BusinessService businessService;
     private final Random random = new Random();
     
-    public HomeController(NewRelicService newRelicService) {
+    public HomeController(NewRelicService newRelicService, BusinessService businessService) {
         this.newRelicService = newRelicService;
+        this.businessService = businessService;
     }
     
     @GetMapping("/")
@@ -84,5 +88,47 @@ public class HomeController {
         model.addAttribute("userId", effectiveUserId);
         model.addAttribute("attributes", attributes);
         return "custom";
+    }
+    
+    @GetMapping("/business-process")
+    public String businessProcess(@RequestParam(required = false) String userId, Model model) {
+        String effectiveUserId = userId != null ? userId : "user_" + random.nextInt(1000);
+        newRelicService.setUserId(effectiveUserId);
+        
+        String orderId = "ORD-" + UUID.randomUUID().toString().substring(0, 8);
+        
+        try {
+            // ビジネスロジック実行
+            String result = businessService.processOrder(orderId, effectiveUserId);
+            
+            // データベースクエリ
+            businessService.queryDatabase("SELECT * FROM orders WHERE id = '" + orderId + "'");
+            
+            // 外部API呼び出し
+            businessService.callExternalApi("/api/payment/verify");
+            
+            // 重い計算
+            double calcResult = businessService.heavyCalculation(10000);
+            
+            // リスクのある操作
+            try {
+                businessService.riskyOperation(orderId);
+            } catch (Exception e) {
+                newRelicService.noticeError(e);
+            }
+            
+            model.addAttribute("message", "ビジネス処理完了");
+            model.addAttribute("userId", effectiveUserId);
+            model.addAttribute("orderId", orderId);
+            model.addAttribute("result", result);
+            model.addAttribute("calculation", String.format("%.2f", calcResult));
+            
+        } catch (Exception e) {
+            newRelicService.noticeError(e);
+            model.addAttribute("error", e.getMessage());
+            return "error";
+        }
+        
+        return "business";
     }
 }

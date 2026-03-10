@@ -3,7 +3,7 @@
 # 負荷テストスクリプト
 # 使い方: ./load-test.sh [URL] [同時接続数] [リクエスト総数]
 
-URL="${1:-http://localhost:8080}"
+URL="${1:-http://localhost:8080/business-process}"
 CONCURRENT="${2:-10}"
 REQUESTS="${3:-1000}"
 

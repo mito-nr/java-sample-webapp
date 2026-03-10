@@ -43,6 +43,11 @@ export NEW_RELIC_APP_NAME="Java Webapp"
 # ビルド
 mvn clean package
 
+# New Relic設定をコピー
+mkdir -p target/newrelic/extensions
+cp newrelic-extensions.xml target/newrelic/extensions/
+cp src/main/resources/newrelic.yml target/newrelic/
+
 # New Relicエージェント付きで起動
 java -javaagent:target/newrelic/newrelic.jar \
   -Dnewrelic.config.license_key=$NEW_RELIC_LICENSE_KEY \

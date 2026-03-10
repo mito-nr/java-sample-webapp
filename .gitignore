@@ -39,6 +39,7 @@ Thumbs.db
 # New Relic
 newrelic.jar
 newrelic/
+newrelic-extensions.xml
 logs/
 
 # Environment

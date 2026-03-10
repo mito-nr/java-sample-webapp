@@ -1,0 +1,74 @@
+# New Relic class_transformer exclude設定例
+
+# ========================================
+# 例1: 単一クラスを除外
+# ========================================
+common: &default_settings
+  class_transformer:
+    excludes: com.example.webapp.service.BusinessService
+
+# ========================================
+# 例2: 複数クラスを除外（カンマ区切り）
+# ========================================
+common: &default_settings
+  class_transformer:
+    excludes: com.example.webapp.service.BusinessService,org.springframework.boot.web.servlet.filter.OrderedFormContentFilter
+
+# ========================================
+# 例3: パッケージ全体を除外（ワイルドカード）
+# ========================================
+common: &default_settings
+  class_transformer:
+    excludes: com.example.webapp.service.*
+
+# ========================================
+# 例4: 複数パッケージを除外
+# ========================================
+common: &default_settings
+  class_transformer:
+    excludes: com.example.webapp.service.*,com.example.webapp.util.*
+
+# ========================================
+# 例5: 特定のインストルメンテーションモジュールを無効化
+# ========================================
+common: &default_settings
+  class_transformer:
+    com.newrelic.instrumentation.servlet-2.4:
+      enabled: false
+    com.newrelic.instrumentation.spring-4.3.0:
+      enabled: false
+
+# ========================================
+# 例6: クラスとモジュールの組み合わせ
+# ========================================
+common: &default_settings
+  class_transformer:
+    excludes: com.example.webapp.service.BusinessService
+    com.newrelic.instrumentation.servlet-2.4:
+      enabled: false
+
+# ========================================
+# 例7: 現在の推奨設定（あなたのプロジェクト用）
+# ========================================
+common: &default_settings
+  license_key: '<%= license_key %>'
+  app_name: Java Webapp
+  
+  class_transformer:
+    # 特定クラスを除外
+    excludes: org.springframework.boot.web.servlet.filter.OrderedFormContentFilter
+    
+    # または特定のインストルメンテーションを無効化
+    # com.newrelic.instrumentation.servlet-2.4:
+    #   enabled: false
+
+production:
+  <<: *default_settings
+
+# ========================================
+# 注意事項
+# ========================================
+# - excludes: クラス全体のインストルメンテーションを無効化
+# - 特定メソッドのみ除外したい場合は newrelic-extensions.xml を使用
+# - ワイルドカード(*)はパッケージレベルでのみ使用可能
+# - クラス名は完全修飾名（FQCN）で指定
