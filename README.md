@@ -26,11 +26,14 @@ git clone <repository-url>
 cd java-webapp
 ```
 
-### 2. New Relic設定
-
-環境変数を設定：
+### 2. 環境変数を設定
 
 ```bash
+# 環境変数セットアップスクリプトを実行
+source setup-env.sh
+
+# または手動で設定
+export JAVA_HOME=$(/usr/libexec/java_home)  # macOS
 export NEW_RELIC_LICENSE_KEY=your_license_key_here
 export NEW_RELIC_APP_NAME="Java Webapp"
 ```
@@ -86,6 +89,32 @@ newRelicService.setUserId("user_123");
 
 ```java
 newRelicService.addCustomAttribute("key", "value");
+```
+
+### 4. カスタムJVMメトリクス
+
+60秒ごとに以下のメトリクスを自動収集：
+- ヒープメモリ使用量（used, committed, max）
+- 非ヒープメモリ使用量
+- クラスロード数（loaded, total, unloaded）
+
+New Relic UIで確認：
+```sql
+SELECT * FROM CustomJvmMetrics SINCE 10 minutes ago
+```
+
+### 5. クラスヒストグラム（クラスごとのヒープ使用量）
+
+120秒ごとに上位20クラスのヒープ使用量を収集：
+- クラス名
+- インスタンス数
+- 使用バイト数
+- ランキング
+
+New Relic UIで確認：
+```sql
+SELECT * FROM ClassHistogram SINCE 10 minutes ago
+SELECT className, bytesInMB, instances FROM ClassHistogram ORDER BY bytes DESC
 ```
 
 ## 負荷テスト

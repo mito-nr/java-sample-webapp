@@ -34,6 +34,7 @@ common: &default_settings
     attributes:
       exclude:
         - request.parameters.*
+  
 
 production:
   <<: *default_settings

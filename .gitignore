@@ -38,8 +38,7 @@ Thumbs.db
 
 # New Relic
 newrelic.jar
-newrelic/
-newrelic-extensions.xml
+newrelic-api*.jar
 logs/
 
 # Environment
@@ -52,4 +51,7 @@ logs/
 *.bak
 *.swp
 *~
+
+.claude/
+*.sh
 

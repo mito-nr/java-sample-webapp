@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension xmlns="https://newrelic.com/docs/java/xsd/v1.0"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="newrelic-extension extension.xsd"
+           name="custom-instrumentation"
+           version="1.0">
+    
+    <instrumentation>
+
+        <!-- ==================== EXCLUDE ==================== -->
+
+        <!-- OrderedFormContentFilterを除外 -->
+        <pointcut transactionStartPoint="false"
+                  ignoreTransaction="false"
+                  excludeFromTransactionTrace="true">
+            <className>org.springframework.boot.web.servlet.filter.OrderedFormContentFilter</className>
+            <method>
+                <name>doFilter</name>
+            </method>
+        </pointcut>
+
+        <!-- BusinessService.heavyCalculationを除外 -->
+        <pointcut transactionStartPoint="false"
+                  ignoreTransaction="false"
+                  excludeFromTransactionTrace="true">
+            <className>com.example.webapp.service.BusinessService</className>
+            <method>
+                <name>heavyCalculation</name>
+            </method>
+        </pointcut>
+
+        <!-- ==================== INCLUDE (内部メソッド) ==================== -->
+
+        <!-- BusinessService.simulateProcessingをSpanとして計測 -->
+        <pointcut transactionStartPoint="false">
+            <className>com.example.webapp.service.BusinessService</className>
+            <method>
+                <name>simulateProcessing</name>
+                <parameters>
+                    <type>int</type>
+                    <type>int</type>
+                </parameters>
+            </method>
+        </pointcut>
+
+        <!-- JvmMetricsService.collectClassHistogramをSpanとして計測 -->
+        <pointcut transactionStartPoint="false">
+            <className>com.example.webapp.service.JvmMetricsService</className>
+            <method>
+                <name>collectClassHistogram</name>
+            </method>
+        </pointcut>
+
+        <!-- JvmMetricsService.collectJvmMetricsをSpanとして計測 -->
+        <pointcut transactionStartPoint="false">
+            <className>com.example.webapp.service.JvmMetricsService</className>
+            <method>
+                <name>collectJvmMetrics</name>
+            </method>
+        </pointcut>
+
+    </instrumentation>
+    
+</extension>

@@ -54,11 +54,11 @@ public class BusinessService {
     }
     
     /**
-     * 重い計算処理（コードでSpan計測を無効化）
+     * 重い計算処理（Span計測を無効化）
      */
     @Trace(metricName = "Custom/Calculation/Heavy")
     public double heavyCalculation(int iterations) {
-        // Spanを無効化
+        // このメソッドのトレースを無視
         com.newrelic.api.agent.NewRelic.getAgent().getTracedMethod().setMetricName((String[]) null);
         
         newRelicService.addCustomAttribute("calculation_iterations", iterations);
